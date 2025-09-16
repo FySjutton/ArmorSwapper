@@ -16,8 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import avox.armorswapper.config.ConfigSystem;
 
-import static net.minecraft.entity.LivingEntity.getPreferredEquipmentSlot;
-
 @Mixin(HandledScreen.class)
 public abstract class ArmorSwapMixin {
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
@@ -35,18 +33,22 @@ public abstract class ArmorSwapMixin {
         if (slot == null || !slot.hasStack()) return;
 
         ItemStack stack = slot.getStack();
-        if (!(stack.getItem() instanceof ArmorItem || stack.getItem() instanceof ElytraItem)) return;
+        int armorSlot = -1;
+        if (stack.getItem() instanceof ArmorItem armorItem) {
+            armorSlot = 8 - armorItem.getSlotType().getEntitySlotId();
+        } else if (stack.getItem() instanceof ElytraItem elytraItem) {
+            armorSlot = 8 - elytraItem.getSlotType().getEntitySlotId();
+        }
+        if (armorSlot != -1) {
+            ScreenHandler handler = screen.getScreenHandler();
+            int clickedIndex = slot.getIndex();
+            if (clickedIndex != armorSlot) {
+                client.interactionManager.clickSlot(handler.syncId, clickedIndex, 0, SlotActionType.PICKUP, client.player);
+                client.interactionManager.clickSlot(handler.syncId, armorSlot, 0, SlotActionType.PICKUP, client.player);
+                client.interactionManager.clickSlot(handler.syncId, clickedIndex, 0, SlotActionType.PICKUP, client.player);
 
-        ScreenHandler handler = screen.getScreenHandler();
-        int armorSlotIndex = 8 - getPreferredEquipmentSlot(stack).getEntitySlotId();
-
-        int clickedIndex = slot.getIndex();
-        if (clickedIndex != armorSlotIndex) {
-            client.interactionManager.clickSlot(handler.syncId, clickedIndex, 0, SlotActionType.PICKUP, client.player);
-            client.interactionManager.clickSlot(handler.syncId, armorSlotIndex, 0, SlotActionType.PICKUP, client.player);
-            client.interactionManager.clickSlot(handler.syncId, clickedIndex, 0, SlotActionType.PICKUP, client.player);
-
-            cir.setReturnValue(true);
+                cir.setReturnValue(true);
+            }
         }
     }
 }
