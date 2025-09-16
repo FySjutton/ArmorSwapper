@@ -1,0 +1,12 @@
+{
+  "armorswapper.discord": "Discord",
+  "armorswapper.category": "Armor Swapper",
+
+  "armorswapper.config.category.general": "General",
+
+  "armorswapper.config.option.enable_mod": "Enabled Mod",
+  "armorswapper.config.option.require_shift": "Require Shift",
+
+  "armorswapper.config.option.enable_mod.desc": "If you want to enable or disable the mod.",
+  "armorswapper.config.option.require_shift.desc": "If you need to press shift+rmb or just rmb."
+}

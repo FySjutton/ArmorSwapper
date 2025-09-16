@@ -1,0 +1,3 @@
+accessWidener v1 named
+
+accessible method net/minecraft/client/gui/screen/ingame/HandledScreen getSlotAt (DD)Lnet/minecraft/screen/slot/Slot;

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "armor-swapper",
+  "version": "${version}",
+  "name": "Armor Swapper",
+  "description": "Quickly swap your armor by right clicking them inside your inventory!",
+  "authors": [
+      "Fy17"
+  ],
+  "contact": {
+    "sources": "https://github.com/FySjutton/ArmorSwapper",
+    "issues": "https://github.com/FySjutton/ArmorSwapper/issues"
+  },
+  "license": "Fy17 Project License",
+  "icon": "assets/armor-swapper/mod_icon.png",
+  "environment": "client",
+  "entrypoints": {
+      "modmenu": [
+        "avox.armorswapper.config.ModMenuIntegration"
+      ]
+  },
+  "accessWidener": "armor-swapper.accesswidener",
+  "mixins": [
+    "armor-swapper.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16",
+    "minecraft": ">=1.20 <=1.20.6",
+    "java": ">=17",
+    "yet_another_config_lib_v3": ">=3.0.2"
+  },
+  "recommends": {
+    "modmenu": ">=7.0.0-"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "armorswapper.discord": "https://discord.gg/V2BXH2q6Rq"
+      },
+      "update_checker": true
+    }
+  }
+}
