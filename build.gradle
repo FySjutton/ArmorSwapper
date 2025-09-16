@@ -67,15 +67,14 @@ jar {
 
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
-    projectId = "my-project"
+    projectId = "armor-swapper"
     versionNumber = project.mod_version
     versionType = "release"
     uploadFile = jar
     gameVersions = ["1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4", "1.20.5", "1.20.6"]
     loaders = ["fabric"]
     dependencies {
-        required.project "fabric-api"
         required.project "yacl"
-        optional.version "modmenu"
+        optional.project "modmenu"
     }
 }
