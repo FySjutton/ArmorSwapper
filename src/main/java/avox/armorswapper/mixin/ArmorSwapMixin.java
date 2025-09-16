@@ -3,8 +3,8 @@ package avox.armorswapper.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ElytraItem;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
@@ -33,15 +33,13 @@ public abstract class ArmorSwapMixin {
         if (slot == null || !slot.hasStack()) return;
 
         ItemStack stack = slot.getStack();
-        int armorSlot = -1;
-        if (stack.getItem() instanceof ArmorItem armorItem) {
-            armorSlot = 8 - armorItem.getSlotType().getEntitySlotId();
-        } else if (stack.getItem() instanceof ElytraItem elytraItem) {
-            armorSlot = 8 - elytraItem.getSlotType().getEntitySlotId();
-        }
-        if (armorSlot != -1) {
+        EquippableComponent piece = stack.get(DataComponentTypes.EQUIPPABLE);
+
+        if (piece != null) {
             ScreenHandler handler = screen.getScreenHandler();
+            int armorSlot = 8 - piece.slot().getEntitySlotId();
             int clickedIndex = slot.getIndex();
+
             if (clickedIndex != armorSlot) {
                 client.interactionManager.clickSlot(handler.syncId, clickedIndex, 0, SlotActionType.PICKUP, client.player);
                 client.interactionManager.clickSlot(handler.syncId, armorSlot, 0, SlotActionType.PICKUP, client.player);
