@@ -1,7 +1,7 @@
 package avox.armorswapper.mixin;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.EquippableComponent;
@@ -19,17 +19,17 @@ import avox.armorswapper.config.ConfigSystem;
 @Mixin(HandledScreen.class)
 public abstract class ArmorSwapMixin {
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
-    private void onMouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+    private void onMouseClicked(Click click, boolean doubled, CallbackInfoReturnable<Boolean> cir) {
         if (!ConfigSystem.CONFIG.instance().enableMod) return;
-        if (button != 1) return;
+        if (click.button() != 1) return;
         if (ConfigSystem.CONFIG.instance().requireShift) {
-            if (!Screen.hasShiftDown()) return;
+            if (!click.hasShift()) return;
         }
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.interactionManager == null) return;
 
         HandledScreen<?> screen = (HandledScreen<?>)(Object)this;
-        Slot slot = screen.getSlotAt(mouseX, mouseY);
+        Slot slot = screen.getSlotAt(click.x(), click.y());
         if (slot == null || !slot.hasStack()) return;
 
         ItemStack stack = slot.getStack();
