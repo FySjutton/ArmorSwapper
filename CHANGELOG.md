@@ -1,1 +1,2 @@
-Updated the mod to 1.21.9-rc1
+Fixed the config not working
+Now depends on Fabric-API
