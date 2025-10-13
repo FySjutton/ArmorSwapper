@@ -1,2 +1,2 @@
-Fixed the config not working
-Now depends on Fabric-API
+Fixed hotbar right-clicking not working
+Fixed other inconsistencies
